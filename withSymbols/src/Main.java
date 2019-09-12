@@ -7,32 +7,24 @@ public class Main {
         String fileName = args[0].split("\\.asm")[0]+".hack";
         BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
         Parser parser = new Parser(args[0]);
+        SymbolTable symbolTable = new SymbolTable();
 
+        // First pass
+        int romAdr = 0;
         while (parser.hasMoreCommands()) {
             parser.advance();
             if (parser.getCurrentCommand().isEmpty()) continue;
 
             switch (parser.commandType()) {
                 case A_COMMAND:
-                    String aout = convertSignedBinary(parser.symbol());
-                    writer.write(aout); writer.newLine();
-                    break;
                 case C_COMMAND:
-                    String c=parser.comp();
-                    String d=parser.dest();
-                    String j=parser.jump();
-                    String cc = Code.comp(c);
-                    String dd = Code.dest(d);
-                    String jj = Code.jump(j);
-                    String a = c.contains("M") ? "1" : "0";
-                    String cout = "111" + a + cc + dd + jj;
-                    writer.write(cout); writer.newLine();
-
+                    romAdr++;
+                    break;
+                case L_COMMAND:
+                    symbolTable.addEntry(parser.symbol(), romAdr+1);
                     break;
             }
-            writer.flush();
         }
-        writer.close();
     }
 
     private static String convertSignedBinary(String symbol) {
