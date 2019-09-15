@@ -32,7 +32,7 @@ public class Parser {
     }
 
     public String symbol() throws Exception {
-        String regex = "[A-Z0-9]+|\\b\\d+\\b";
+        String regex = "[a-zA-Z0-9_.$:]+";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(currentCommand);
 
