@@ -38,4 +38,8 @@ public class CodeWriter {
     public void writePushPop(CommandType command, String segment, int index) {
 
     }
+
+    public void close() throws IOException {
+        writer.close();
+    }
 }
