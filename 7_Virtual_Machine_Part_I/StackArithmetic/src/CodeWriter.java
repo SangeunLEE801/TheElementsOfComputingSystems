@@ -21,6 +21,17 @@ public class CodeWriter {
             case "sub":
                 break;
             case "neg":
+                /**
+                 * addr = SP - 1;
+                 * *addr = (*addr) * (-1);
+                 */
+                assembly.append("@SP").append("\n")
+                        .append("D=M-1").append("\n")
+                        .append("@addr").append("\n")
+                        .append("M=D").append("\n")
+                        .append("@addr").append("\n")
+                        .append("D=M").append("\n")
+                        .append("M=-D").append("\n");
                 break;
             case "eq":
                 break;
