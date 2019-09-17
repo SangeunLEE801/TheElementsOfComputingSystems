@@ -12,7 +12,9 @@ public class CodeWriter {
         writer = new BufferedWriter(new FileWriter(filename));
     }
 
-    public void writeArithmetic(String command) {
+    public void writeArithmetic(String command) throws IOException {
+        StringBuilder assembly = new StringBuilder();
+
         switch (command) {
             case "add":
                 break;
@@ -31,8 +33,20 @@ public class CodeWriter {
             case "or":
                 break;
             case "not":
+                /**
+                 * addr = SP - 1;
+                 * *addr = !(*addr);
+                 */
+                assembly.append("@SP").append("\n")
+                        .append("D=M-1").append("\n")
+                        .append("@addr").append("\n")
+                        .append("M=D").append("\n")
+                        .append("@addr").append("\n")
+                        .append("D=M").append("\n")
+                        .append("M=!D").append("\n");
                 break;
         }
+        writer.write(assembly.toString());
     }
 
     public void writePushPop(CommandType command, String segment, int index) {
