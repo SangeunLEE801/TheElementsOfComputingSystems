@@ -38,10 +38,11 @@ public class Parser {
     }
 
     public String arg1() {
-        return currentCommand.split(" ")[0];
+        if (commandType() == CommandType.C_ARITHMETIC) return currentCommand;
+        return currentCommand.split(" ")[1];
     }
 
     public String arg2() {
-        return currentCommand.split(" ")[1];
+        return currentCommand.split(" ")[2];
     }
 }
