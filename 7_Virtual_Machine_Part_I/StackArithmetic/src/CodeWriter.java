@@ -260,6 +260,13 @@ public class CodeWriter {
                     case "pointer":
                         break;
                     case "constant":
+                        assembly.append("@").append(index).append("\n")
+                                .append("D=A").append("\n")
+                                .append("@SP").append("\n")
+                                .append("A=M").append("\n")
+                                .append("M=D").append("\n")
+                                .append("@SP").append("\n")
+                                .append("M=M+1").append("\n");
                         break;
                 }
                 break;
