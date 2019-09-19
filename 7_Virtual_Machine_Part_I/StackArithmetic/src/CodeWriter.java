@@ -6,10 +6,11 @@ import java.io.IOException;
 public class CodeWriter {
 
     private BufferedWriter writer;
+    private String filename;
 
     public CodeWriter(File file) throws IOException {
-        String filename = file.getName().replace(".vm", ".asm");
-        writer = new BufferedWriter(new FileWriter(filename));
+        filename = file.getName().replace(".vm", "");
+        writer = new BufferedWriter(new FileWriter(filename + ".asm"));
     }
 
     public void writeArithmetic(String command) throws IOException {
@@ -317,6 +318,13 @@ public class CodeWriter {
                                 .append("M=M+1").append("\n");
                         break;
                     case "static":
+                        assembly.append("@").append(filename).append(".").append(index)
+                                .append("D=M")
+                                .append("@SP")
+                                .append("A=M").append("\n")
+                                .append("M=D").append("\n")
+                                .append("@SP").append("\n") // SP++
+                                .append("M=M+1").append("\n");
                         break;
                     case "pointer":
                         assembly.append("@").append(index) // pointer + i
