@@ -246,6 +246,19 @@ public class CodeWriter {
             case C_PUSH:
                 switch (segment) {
                     case "local":
+                        assembly.append("@").append(index) // LCL + i
+                                .append("D=A")
+                                .append("@LCL")
+                                .append("D=M+D")
+                                .append("@addr") // addr = LCL + i (M)
+                                .append("M=D")
+                                .append("D=M") // *addr
+                                .append("@SP") // *SP = *addr
+                                .append("A=M").append("\n")
+                                .append("M=D").append("\n")
+                                .append("@SP").append("\n") // SP++
+                                .append("M=M+1").append("\n");
+
                         break;
                     case "argument":
                         break;
@@ -260,12 +273,12 @@ public class CodeWriter {
                     case "pointer":
                         break;
                     case "constant":
-                        assembly.append("@").append(index).append("\n")
+                        assembly.append("@").append(index).append("\n") // D = i
                                 .append("D=A").append("\n")
-                                .append("@SP").append("\n")
+                                .append("@SP").append("\n") // *SP = D
                                 .append("A=M").append("\n")
                                 .append("M=D").append("\n")
-                                .append("@SP").append("\n")
+                                .append("@SP").append("\n") // SP++
                                 .append("M=M+1").append("\n");
                         break;
                 }
