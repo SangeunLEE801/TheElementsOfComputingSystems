@@ -17,8 +17,55 @@ public class CodeWriter {
 
         switch (command) {
             case "add":
+                /**
+                 * second = *(SP -1);
+                 * SP--;
+                 * first = *(SP - 1);
+                 * SP--;
+                 * *SP = first + second;
+                 * SP++;
+                 */
+                assembly.append("@SP").append("\n") // second
+                        .append("D=M-1").append("\n")
+                        .append("@second").append("\n")
+                        .append("M=D").append("\n")
+                        .append("@SP").append("\n") // SP--;
+                        .append("M=M-1").append("\n")
+                        .append("@SP").append("\n") // first
+                        .append("D=M-1").append("\n")
+                        .append("@SP").append("\n") // SP--;
+                        .append("M=M-1").append("\n")
+                        .append("@second").append("\n")
+                        .append("A=M").append("\n")
+                        .append("D=D+A").append("\n") // first + second. D still has the value of first
+                        .append("@SP").append("\n")
+                        .append("M=M+1").append("\n");
+
                 break;
             case "sub":
+                /**
+                 * SP--;
+                 * second = *SP;
+                 * SP--;
+                 * first = *SP;
+                 * *SP = first - second;
+                 * SP++;
+                 */
+                assembly.append("@SP").append("\n") // second
+                        .append("D=M-1").append("\n")
+                        .append("@second").append("\n")
+                        .append("M=D").append("\n")
+                        .append("@SP").append("\n") // SP--;
+                        .append("M=M-1").append("\n")
+                        .append("@SP").append("\n") // first
+                        .append("D=M-1").append("\n")
+                        .append("@SP").append("\n") // SP--;
+                        .append("M=M-1").append("\n")
+                        .append("@second").append("\n")
+                        .append("A=M").append("\n")
+                        .append("D=D-A").append("\n") // first - second. D still has the value of first
+                        .append("@SP").append("\n")
+                        .append("M=M+1").append("\n");
                 break;
             case "neg":
                 /**
@@ -34,14 +81,124 @@ public class CodeWriter {
                         .append("M=-D").append("\n");
                 break;
             case "eq":
+                assembly.append("@SP").append("\n") // second
+                        .append("D=M-1").append("\n")
+                        .append("@second").append("\n")
+                        .append("M=D").append("\n")
+                        .append("@SP").append("\n") // SP--;
+                        .append("M=M-1").append("\n")
+                        .append("@SP").append("\n") // first
+                        .append("D=M-1").append("\n")
+                        .append("@SP").append("\n") // SP--;
+                        .append("M=M-1").append("\n")
+                        .append("@second").append("\n")
+                        .append("D=D-M").append("\n") // first - second. D still has the value of first
+                        .append("@EQUAL").append("\n")
+                        .append("D;JEQ").append("\n")
+                        .append("@SP").append("\n")
+                        .append("M=0").append("\n")
+                        .append("(EQUAL)").append("\n")
+                        .append("   @SP").append("\n")
+                        .append("   M=-1").append("\n")
+                        .append("@SP").append("\n")
+                        .append("M=M+1").append("\n");
+
                 break;
             case "gt":
+                assembly.append("@SP").append("\n") // second
+                        .append("D=M-1").append("\n")
+                        .append("@second").append("\n")
+                        .append("M=D").append("\n")
+                        .append("@SP").append("\n") // SP--;
+                        .append("M=M-1").append("\n")
+                        .append("@SP").append("\n") // first
+                        .append("D=M-1").append("\n")
+                        .append("@SP").append("\n") // SP--;
+                        .append("M=M-1").append("\n")
+                        .append("@second").append("\n")
+                        .append("D=D-M").append("\n") // first - second. D still has the value of first
+                        .append("@GREATER_THAN").append("\n")
+                        .append("D;JGT").append("\n")
+                        .append("@SP").append("\n")
+                        .append("M=0").append("\n")
+                        .append("(GREATER_THAN)").append("\n")
+                        .append("   @SP").append("\n")
+                        .append("   M=-1").append("\n")
+                        .append("@SP").append("\n")
+                        .append("M=M+1").append("\n");
                 break;
             case "lt":
+                assembly.append("@SP").append("\n") // second
+                        .append("D=M-1").append("\n")
+                        .append("@second").append("\n")
+                        .append("M=D").append("\n")
+                        .append("@SP").append("\n") // SP--;
+                        .append("M=M-1").append("\n")
+                        .append("@SP").append("\n") // first
+                        .append("D=M-1").append("\n")
+                        .append("@SP").append("\n") // SP--;
+                        .append("M=M-1").append("\n")
+                        .append("@second").append("\n")
+                        .append("D=D-M").append("\n") // first - second. D still has the value of first
+                        .append("@LESS_THAN").append("\n")
+                        .append("D;JGT").append("\n")
+                        .append("@SP").append("\n")
+                        .append("M=0").append("\n")
+                        .append("(LESS_THAN)").append("\n")
+                        .append("   @SP").append("\n")
+                        .append("   M=-1").append("\n")
+                        .append("@SP").append("\n")
+                        .append("M=M+1").append("\n");
                 break;
             case "and":
+                /**
+                 * SP--;
+                 * second = *SP;
+                 * SP--;
+                 * first = *SP;
+                 * *SP = first & second;
+                 * SP++;
+                 */
+                assembly.append("@SP").append("\n") // second
+                        .append("D=M-1").append("\n")
+                        .append("@second").append("\n")
+                        .append("M=D").append("\n")
+                        .append("@SP").append("\n") // SP--;
+                        .append("M=M-1").append("\n")
+                        .append("@SP").append("\n") // first
+                        .append("D=M-1").append("\n")
+                        .append("@SP").append("\n") // SP--;
+                        .append("M=M-1").append("\n")
+                        .append("@second").append("\n")
+                        .append("A=M").append("\n")
+                        .append("D=D&A").append("\n") // first & second. D still has the value of first
+                        .append("@SP").append("\n")
+                        .append("M=M+1").append("\n");
                 break;
             case "or":
+                /**
+                 * SP--;
+                 * second = *SP;
+                 * SP--;
+                 * first = *SP;
+                 * *SP = first | second;
+                 * SP++;
+                 */
+                assembly.append("@SP").append("\n") // second
+                        .append("D=M-1").append("\n")
+                        .append("@second").append("\n")
+                        .append("M=D").append("\n")
+                        .append("@SP").append("\n") // SP--;
+                        .append("M=M-1").append("\n")
+                        .append("@SP").append("\n") // first
+                        .append("D=M-1").append("\n")
+                        .append("@SP").append("\n") // SP--;
+                        .append("M=M-1").append("\n")
+                        .append("@second").append("\n")
+                        .append("A=M").append("\n")
+                        .append("D=D|A").append("\n") // first | second. D still has the value of first
+                        .append("@SP").append("\n")
+                        .append("M=M+1").append("\n");
                 break;
             case "not":
                 /**
@@ -58,10 +215,10 @@ public class CodeWriter {
                 break;
         }
         writer.write(assembly.toString());
+        writer.flush();
     }
 
     public void writePushPop(CommandType command, String segment, int index) {
-
     }
 
     public void close() throws IOException {
