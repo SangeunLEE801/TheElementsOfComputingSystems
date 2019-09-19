@@ -250,7 +250,7 @@ public class CodeWriter {
                                 .append("D=A")
                                 .append("@LCL")
                                 .append("D=M+D")
-                                .append("@addr") // addr = LCL + i (M)
+                                .append("@addr") // addr = LCL + i
                                 .append("M=D")
                                 .append("D=M") // *addr
                                 .append("@SP") // *SP = *addr
@@ -261,6 +261,18 @@ public class CodeWriter {
 
                         break;
                     case "argument":
+                        assembly.append("@").append(index) // ARG + i
+                                .append("D=A")
+                                .append("@ARG")
+                                .append("D=M+D")
+                                .append("@addr") // addr = ARG + i
+                                .append("M=D")
+                                .append("D=M") // *addr
+                                .append("@SP") // *SP = *addr
+                                .append("A=M").append("\n")
+                                .append("M=D").append("\n")
+                                .append("@SP").append("\n") // SP++
+                                .append("M=M+1").append("\n");
                         break;
                     case "this":
                         break;
