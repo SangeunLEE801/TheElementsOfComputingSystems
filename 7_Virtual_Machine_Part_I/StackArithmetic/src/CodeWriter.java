@@ -218,7 +218,54 @@ public class CodeWriter {
         writer.flush();
     }
 
-    public void writePushPop(CommandType command, String segment, int index) {
+    public void writePushPop(CommandType command, String segment, int index) throws IOException {
+        StringBuilder assembly = new StringBuilder();
+
+        switch (command) {
+            case C_POP:
+                switch (segment) {
+                    case "local":
+                        break;
+                    case "argument":
+                        break;
+                    case "this":
+                        break;
+                    case "that":
+                        break;
+                    case "temp":
+                        break;
+                    case "static":
+                        break;
+                    case "pointer":
+                        break;
+                    case "constant":
+                        break;
+                }
+                break;
+
+            case C_PUSH:
+                switch (segment) {
+                    case "local":
+                        break;
+                    case "argument":
+                        break;
+                    case "this":
+                        break;
+                    case "that":
+                        break;
+                    case "temp":
+                        break;
+                    case "static":
+                        break;
+                    case "pointer":
+                        break;
+                    case "constant":
+                        break;
+                }
+                break;
+        }
+        writer.write(assembly.toString());
+        writer.flush();
     }
 
     public void close() throws IOException {
