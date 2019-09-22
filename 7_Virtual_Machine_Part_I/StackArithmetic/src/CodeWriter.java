@@ -19,27 +19,26 @@ public class CodeWriter {
         switch (command) {
             case "add":
                 /**
-                 * second = *(SP -1);
-                 * SP--;
-                 * first = *(SP - 1);
-                 * SP--;
+                 * second = *(--SP);
+                 * first = *(--SP);
                  * *SP = first + second;
                  * SP++;
                  */
-                assembly.append("@SP").append("\n") // second
-                        .append("D=M-1").append("\n")
+                assembly.append("@SP").append("\n") // SP--
+                        .append("AM=M-1").append("\n") // A = M - 1
+                        .append("D=M").append("\n") // D = M[M-1]
                         .append("@second").append("\n")
                         .append("M=D").append("\n")
-                        .append("@SP").append("\n") // SP--;
-                        .append("M=M-1").append("\n")
                         .append("@SP").append("\n") // first
-                        .append("D=M-1").append("\n")
-                        .append("@SP").append("\n") // SP--;
-                        .append("M=M-1").append("\n")
+                        .append("AM=M-1").append("\n")
+                        .append("D=M").append("\n")
                         .append("@second").append("\n")
                         .append("A=M").append("\n")
                         .append("D=D+A").append("\n") // first + second. D still has the value of first
-                        .append("@SP").append("\n")
+                        .append("@SP").append("\n") //*SP = first + second
+                        .append("A=M").append("\n")
+                        .append("M=D").append("\n")
+                        .append("@SP").append("\n") // SP++;
                         .append("M=M+1").append("\n");
 
                 break;
@@ -338,7 +337,7 @@ public class CodeWriter {
 
                         break;
                     case "argument":
-                        assembly.append("@").append(index) // ARG + i
+                        assembly.append("@").append(index).append("\n") // ARG + i
                                 .append("D=A").append("\n")
                                 .append("@ARG").append("\n")
                                 .append("D=M+D").append("\n")
@@ -347,7 +346,7 @@ public class CodeWriter {
                                 .append("D=M").append("\n");
                         break;
                     case "this":
-                        assembly.append("@").append(index) // THIS + i
+                        assembly.append("@").append(index).append("\n") // THIS + i
                                 .append("D=A").append("\n")
                                 .append("@THIS").append("\n")
                                 .append("D=M+D").append("\n")
@@ -356,7 +355,7 @@ public class CodeWriter {
                                 .append("D=M").append("\n");
                         break;
                     case "that":
-                        assembly.append("@").append(index) // THAT + i
+                        assembly.append("@").append(index).append("\n") // THAT + i
                                 .append("D=A").append("\n")
                                 .append("@THAT").append("\n")
                                 .append("D=M+D").append("\n")
@@ -365,7 +364,7 @@ public class CodeWriter {
                                 .append("D=M").append("\n");
                         break;
                     case "temp":
-                        assembly.append("@").append(index) // temp + i
+                        assembly.append("@").append(index).append("\n") // temp + i
                                 .append("D=A").append("\n")
                                 .append("@R5").append("\n")
                                 .append("D=A+D").append("\n")
@@ -391,7 +390,7 @@ public class CodeWriter {
                                 .append("D=A").append("\n");
                         break;
                 }
-                assembly.append("@SP") // *SP = *addr
+                assembly.append("@SP").append("\n") // *SP = *addr
                     .append("A=M").append("\n")
                     .append("M=D").append("\n")
                     .append("@SP").append("\n") // SP++
