@@ -8,9 +8,9 @@ public class CodeWriter {
     private BufferedWriter writer;
     private String filename;
 
-    public CodeWriter(File file) throws IOException {
-        filename = file.getName().replace(".vm", "");
-        writer = new BufferedWriter(new FileWriter(filename + ".asm"));
+    public CodeWriter(String filename) throws IOException {
+        this.filename = filename.replace(".vm", "");
+        writer = new BufferedWriter(new FileWriter(this.filename + ".asm"));
     }
 
     public void writeArithmetic(String command) throws IOException {
