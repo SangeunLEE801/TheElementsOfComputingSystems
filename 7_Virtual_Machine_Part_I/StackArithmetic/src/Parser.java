@@ -20,7 +20,7 @@ public class Parser {
 
     public void advance() {
         currentCommand = scanner.nextLine();
-        currentCommand = currentCommand.replaceAll("//.*|\\s|^$", "");
+        currentCommand = currentCommand.replaceAll("//.*|^$", "");
     }
 
     public CommandType commandType() {
