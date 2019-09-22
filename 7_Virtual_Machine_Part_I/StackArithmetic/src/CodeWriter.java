@@ -253,12 +253,7 @@ public class CodeWriter {
                                 .append("D=M+D")
                                 .append("@addr") // addr = LCL + i
                                 .append("M=D")
-                                .append("D=M") // *addr
-                                .append("@SP") // *SP = *addr
-                                .append("A=M").append("\n")
-                                .append("M=D").append("\n")
-                                .append("@SP").append("\n") // SP++
-                                .append("M=M+1").append("\n");
+                                .append("D=M");
 
                         break;
                     case "argument":
@@ -268,12 +263,7 @@ public class CodeWriter {
                                 .append("D=M+D")
                                 .append("@addr") // addr = ARG + i
                                 .append("M=D")
-                                .append("D=M") // *addr
-                                .append("@SP") // *SP = *addr
-                                .append("A=M").append("\n")
-                                .append("M=D").append("\n")
-                                .append("@SP").append("\n") // SP++
-                                .append("M=M+1").append("\n");
+                                .append("D=M");
                         break;
                     case "this":
                         assembly.append("@").append(index) // THIS + i
@@ -282,12 +272,7 @@ public class CodeWriter {
                                 .append("D=M+D")
                                 .append("@addr") // addr = THIS + i
                                 .append("M=D")
-                                .append("D=M") // *addr
-                                .append("@SP") // *SP = *addr
-                                .append("A=M").append("\n")
-                                .append("M=D").append("\n")
-                                .append("@SP").append("\n") // SP++
-                                .append("M=M+1").append("\n");
+                                .append("D=M");
                         break;
                     case "that":
                         assembly.append("@").append(index) // THAT + i
@@ -296,12 +281,7 @@ public class CodeWriter {
                                 .append("D=M+D")
                                 .append("@addr") // addr = THAT + i
                                 .append("M=D")
-                                .append("D=M") // *addr
-                                .append("@SP") // *SP = *addr
-                                .append("A=M").append("\n")
-                                .append("M=D").append("\n")
-                                .append("@SP").append("\n") // SP++
-                                .append("M=M+1").append("\n");
+                                .append("D=M");
                         break;
                     case "temp":
                         assembly.append("@").append(index) // temp + i
@@ -310,21 +290,11 @@ public class CodeWriter {
                                 .append("D=A+D")
                                 .append("@addr") // addr = temp + i
                                 .append("M=D")
-                                .append("D=M") // *addr
-                                .append("@SP") // *SP = *addr
-                                .append("A=M").append("\n")
-                                .append("M=D").append("\n")
-                                .append("@SP").append("\n") // SP++
-                                .append("M=M+1").append("\n");
+                                .append("D=M");
                         break;
                     case "static":
                         assembly.append("@").append(filename).append(".").append(index)
-                                .append("D=M")
-                                .append("@SP")
-                                .append("A=M").append("\n")
-                                .append("M=D").append("\n")
-                                .append("@SP").append("\n") // SP++
-                                .append("M=M+1").append("\n");
+                                .append("D=M");
                         break;
                     case "pointer":
                         assembly.append("@").append(index) // pointer + i
@@ -333,24 +303,18 @@ public class CodeWriter {
                                 .append("D=A+D")
                                 .append("@addr") // addr = pointer + i
                                 .append("M=D")
-                                .append("D=M") // *addr
-                                .append("@SP") // *SP = *addr
-                                .append("A=M").append("\n")
-                                .append("M=D").append("\n")
-                                .append("@SP").append("\n") // SP++
-                                .append("M=M+1").append("\n");
+                                .append("D=M");
                         break;
                     case "constant":
                         assembly.append("@").append(index).append("\n") // D = i
-                                .append("D=A").append("\n")
-                                .append("@SP").append("\n") // *SP = D
-                                .append("A=M").append("\n")
-                                .append("M=D").append("\n")
-                                .append("@SP").append("\n") // SP++
-                                .append("M=M+1").append("\n");
+                                .append("D=A").append("\n");
                         break;
                 }
-                break;
+                assembly.append("@SP") // *SP = *addr
+                    .append("A=M").append("\n")
+                    .append("M=D").append("\n")
+                    .append("@SP").append("\n") // SP++
+                    .append("M=M+1").append("\n");
         }
         writer.write(assembly.toString());
         writer.flush();
