@@ -40,7 +40,7 @@ public class Parser {
         return currentCommand.split(" ")[1];
     }
 
-    public String arg2() {
-        return currentCommand.split(" ")[2];
+    public int arg2() {
+        return Integer.parseInt(currentCommand.split(" ")[2]);
     }
 }
