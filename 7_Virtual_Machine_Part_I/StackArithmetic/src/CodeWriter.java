@@ -224,22 +224,103 @@ public class CodeWriter {
 
         switch (command) {
             case C_POP:
+                /**
+                 * addr = segment + i
+                 * SP--
+                 * *addr = *SP
+                 */
                 switch (segment) {
                     case "local":
+                        assembly.append("@").append(index).append("\n") // LCL + i
+                                .append("D=A").append("\n")
+                                .append("@LCL").append("\n")
+                                .append("D=M+D").append("\n")
+                                .append("@addr").append("\n") // addr = LCL + i
+                                .append("M=D").append("\n")
+                                .append("@SP").append("\n")
+                                .append("MD=M-1").append("\n")
+                                .append("@addr").append("\n")
+                                .append("M=D").append("\n");
                         break;
                     case "argument":
+                        assembly.append("@").append(index).append("\n") // LCL + i
+                                .append("D=A").append("\n")
+                                .append("@ARG").append("\n")
+                                .append("D=M+D").append("\n")
+                                .append("@addr").append("\n") // addr = LCL + i
+                                .append("M=D").append("\n")
+                                .append("@SP").append("\n")
+                                .append("MD=M-1").append("\n")
+                                .append("@addr").append("\n")
+                                .append("M=D").append("\n");
                         break;
                     case "this":
+                        assembly.append("@").append(index).append("\n") // LCL + i
+                                .append("D=A").append("\n")
+                                .append("@THIS").append("\n")
+                                .append("D=M+D").append("\n")
+                                .append("@addr").append("\n") // addr = LCL + i
+                                .append("M=D").append("\n")
+                                .append("@SP").append("\n")
+                                .append("MD=M-1").append("\n")
+                                .append("@addr").append("\n")
+                                .append("M=D").append("\n");
                         break;
                     case "that":
+                        assembly.append("@").append(index).append("\n") // LCL + i
+                                .append("D=A").append("\n")
+                                .append("@THAT").append("\n")
+                                .append("D=M+D").append("\n")
+                                .append("@addr").append("\n") // addr = LCL + i
+                                .append("M=D").append("\n")
+                                .append("@SP").append("\n")
+                                .append("MD=M-1").append("\n")
+                                .append("@addr").append("\n")
+                                .append("M=D").append("\n");
                         break;
                     case "temp":
+                        assembly.append("@").append(index).append("\n") // LCL + i
+                                .append("D=A").append("\n")
+                                .append("@R5").append("\n")
+                                .append("D=M+D").append("\n")
+                                .append("@addr").append("\n") // addr = LCL + i
+                                .append("M=D").append("\n")
+                                .append("@SP").append("\n")
+                                .append("MD=M-1").append("\n")
+                                .append("@addr").append("\n")
+                                .append("M=D").append("\n");
                         break;
                     case "static":
+                        assembly.append("@").append(filename).append(".").append(index).append("\n")
+                                .append("D=A").append("\n")
+                                .append("@addr").append("\n") // addr = LCL + i
+                                .append("M=D").append("\n")
+                                .append("@SP").append("\n")
+                                .append("MD=M-1").append("\n")
+                                .append("@addr").append("\n")
+                                .append("M=D").append("\n");
                         break;
                     case "pointer":
+                        assembly.append("@").append(index).append("\n") // LCL + i
+                                .append("D=A").append("\n")
+                                .append("@R3").append("\n")
+                                .append("D=M+D").append("\n")
+                                .append("@addr").append("\n") // addr = LCL + i
+                                .append("M=D").append("\n")
+                                .append("@SP").append("\n")
+                                .append("MD=M-1").append("\n")
+                                .append("@addr").append("\n")
+                                .append("M=D").append("\n");
                         break;
                     case "constant":
+                        assembly.append("@").append(index).append("\n") // LCL + i
+                                .append("D=A").append("\n")
+                                .append("@addr").append("\n") // addr = LCL + i
+                                .append("M=D").append("\n")
+                                .append("@SP").append("\n")
+                                .append("MD=M-1").append("\n")
+                                .append("@addr").append("\n")
+                                .append("M=D").append("\n");
                         break;
                 }
                 break;
@@ -247,63 +328,63 @@ public class CodeWriter {
             case C_PUSH:
                 switch (segment) {
                     case "local":
-                        assembly.append("@").append(index) // LCL + i
-                                .append("D=A")
-                                .append("@LCL")
-                                .append("D=M+D")
-                                .append("@addr") // addr = LCL + i
-                                .append("M=D")
-                                .append("D=M");
+                        assembly.append("@").append(index).append("\n") // LCL + i
+                                .append("D=A").append("\n")
+                                .append("@LCL").append("\n")
+                                .append("D=M+D").append("\n")
+                                .append("@addr").append("\n") // addr = LCL + i
+                                .append("M=D").append("\n")
+                                .append("D=M").append("\n");
 
                         break;
                     case "argument":
                         assembly.append("@").append(index) // ARG + i
-                                .append("D=A")
-                                .append("@ARG")
-                                .append("D=M+D")
-                                .append("@addr") // addr = ARG + i
-                                .append("M=D")
-                                .append("D=M");
+                                .append("D=A").append("\n")
+                                .append("@ARG").append("\n")
+                                .append("D=M+D").append("\n")
+                                .append("@addr").append("\n") // addr = ARG + i
+                                .append("M=D").append("\n")
+                                .append("D=M").append("\n");
                         break;
                     case "this":
                         assembly.append("@").append(index) // THIS + i
-                                .append("D=A")
-                                .append("@THIS")
-                                .append("D=M+D")
-                                .append("@addr") // addr = THIS + i
-                                .append("M=D")
-                                .append("D=M");
+                                .append("D=A").append("\n")
+                                .append("@THIS").append("\n")
+                                .append("D=M+D").append("\n")
+                                .append("@addr").append("\n") // addr = THIS + i
+                                .append("M=D").append("\n")
+                                .append("D=M").append("\n");
                         break;
                     case "that":
                         assembly.append("@").append(index) // THAT + i
-                                .append("D=A")
-                                .append("@THAT")
-                                .append("D=M+D")
-                                .append("@addr") // addr = THAT + i
-                                .append("M=D")
-                                .append("D=M");
+                                .append("D=A").append("\n")
+                                .append("@THAT").append("\n")
+                                .append("D=M+D").append("\n")
+                                .append("@addr").append("\n") // addr = THAT + i
+                                .append("M=D").append("\n")
+                                .append("D=M").append("\n");
                         break;
                     case "temp":
                         assembly.append("@").append(index) // temp + i
-                                .append("D=A")
-                                .append("@R5")
-                                .append("D=A+D")
-                                .append("@addr") // addr = temp + i
-                                .append("M=D")
-                                .append("D=M");
+                                .append("D=A").append("\n")
+                                .append("@R5").append("\n")
+                                .append("D=A+D").append("\n")
+                                .append("@addr").append("\n") // addr = temp + i
+                                .append("M=D").append("\n")
+                                .append("D=M").append("\n");
                         break;
                     case "static":
-                        assembly.append("@").append(filename).append(".").append(index)
-                                .append("D=M");
+                        assembly.append("@").append(filename).append(".").append(index).append("\n")
+                                .append("D=A").append("\n");
                         break;
                     case "pointer":
-                        assembly.append("@").append(index) // pointer + i
-                                .append("D=A")
-                                .append("@R3")
-                                .append("D=A+D")
-                                .append("@addr") // addr = pointer + i
-                                .append("M=D")
-                                .append("D=M");
+                        assembly.append("@").append(index).append("\n") // pointer + i
+                                .append("D=A").append("\n")
+                                .append("@R3").append("\n")
+                                .append("D=A+D").append("\n")
+                                .append("@addr").append("\n") // addr = pointer + i
+                                .append("M=D").append("\n")
+                                .append("D=M").append("\n");
                         break;
                     case "constant":
                         assembly.append("@").append(index).append("\n") // D = i
