@@ -215,16 +215,15 @@ public class CodeWriter {
                 break;
             case "not":
                 /**
-                 * addr = SP - 1;
-                 * *addr = !(*addr);
+                 * !(*(--SP));
+                 * SP++;
                  */
                 assembly.append("@SP").append("\n")
-                        .append("D=M-1").append("\n")
-                        .append("@addr").append("\n")
-                        .append("M=D").append("\n")
-                        .append("@addr").append("\n")
-                        .append("D=M").append("\n")
-                        .append("M=!D").append("\n");
+                        .append("AM=M-1").append("\n") // A = M - 1
+                        .append("D=M").append("\n") // D = M[M-1]
+                        .append("M=!D").append("\n")
+                        .append("@SP").append("\n") // SP++;
+                        .append("M=M+1").append("\n");
                 break;
         }
         writer.write(assembly.toString());
