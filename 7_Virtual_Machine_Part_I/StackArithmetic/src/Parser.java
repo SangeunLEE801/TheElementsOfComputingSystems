@@ -1,8 +1,6 @@
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Parser {
     private Scanner scanner;
@@ -22,7 +20,7 @@ public class Parser {
 
     public void advance() {
         currentCommand = scanner.nextLine();
-        currentCommand = currentCommand.replaceAll("//.*|\\s|^$", "");
+        currentCommand = currentCommand.replaceAll("//.*|^$", "");
     }
 
     public CommandType commandType() {
@@ -38,10 +36,11 @@ public class Parser {
     }
 
     public String arg1() {
-        return currentCommand.split(" ")[0];
+        if (commandType() == CommandType.C_ARITHMETIC) return currentCommand;
+        return currentCommand.split(" ")[1];
     }
 
-    public String arg2() {
-        return currentCommand.split(" ")[1];
+    public int arg2() {
+        return Integer.parseInt(currentCommand.split(" ")[2]);
     }
 }
