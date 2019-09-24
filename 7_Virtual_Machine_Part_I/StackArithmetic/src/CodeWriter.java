@@ -415,6 +415,9 @@ public class CodeWriter {
     public void close() throws IOException {
         StringBuilder assembly =
                 new StringBuilder()
+                        .append("(END)").append("\n")
+                        .append("   @END").append("\n")
+                        .append("   0;JMP").append("\n")
                         .append("(TRUE)").append("\n")
                         .append("   @SP").append("\n")
                         .append("   A=M").append("\n")
@@ -422,6 +425,7 @@ public class CodeWriter {
                         .append("   @R13").append("\n")
                         .append("   A=M").append("\n")
                         .append("   0;JMP").append("\n");
+
         writer.write(assembly.toString());
         writer.close();
     }
